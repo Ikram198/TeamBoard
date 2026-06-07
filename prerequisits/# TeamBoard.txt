@@ -1,0 +1,34 @@
+﻿# TeamBoard
+
+
+## Goal
+Multiple people can work on same project/todo. admin can assign the different rolls to different team member . all team members can create notes under the particular project like what they have done what they have left etc.
+
+
+## Target Users
+Mainly people who are working in a team want to sync with other team member and tack the progress
+
+
+## Features
+- coordination (working in a team )
+- also we can add timeline for subtasks and tasks 
+- for tracking project progress we can also make stages of project and subtasks so that people can estimate the project completion time 
+- in version we can also notified user on email for task assigned and changes made in project 
+
+
+## User Flow
+User signs up
+→ Login
+→ Dashboard
+→ Create Item / view task
+→ Edit Item
+
+
+## Tech Stack
+Frontend:
+Backend:
+Database:
+
+
+## MVP Version
+Admin user can create a task and assign subtasks to team members and they can see and edit tasks
