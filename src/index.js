@@ -8,11 +8,11 @@ dotenv.config({
 });
 connectDB().
 then(
-  console.log("db connected ")
+  console.log("db connected .then")
 ).
 catch(
-  APIError(500, "Error in db connection"),
-  console.log("error in db connection", error)
+  new APIError(500, "Error in db connection"),
+  console.log("error in db connection")
 )
 
 

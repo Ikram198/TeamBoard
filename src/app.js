@@ -1,6 +1,14 @@
 import express from 'express';
 
-app = express();
+const app = express();
+app.use(express.json());
+
+// Define your routes here
+app.get('/', (req, res) => {
+  res.send('Welcome to the Kanban Application API!');
+});
+
+
 
 
 export default app;
