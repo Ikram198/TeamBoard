@@ -9,7 +9,7 @@ app.get('/', (req, res) => {
 });
 
 
-app.use(api/v1/authentication , auth_router);
+// app.use(api/v1/authentication , auth_router);
 
 
 
