@@ -29,7 +29,9 @@ const userschema = new Schema({
     },
     isverified: {
         type: Boolean,
-
+    }
+    Time_to_verify_token: {
+        type: date,
     }
     // may be we have to create verification token
 })
