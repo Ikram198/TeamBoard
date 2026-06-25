@@ -1,4 +1,5 @@
 import mongoose , {Schema} from "mongoose";
+import secrets;
 const userschema = new Schema({
     id: {
         type: String,
@@ -35,7 +36,8 @@ userschema.methods.Generate_refresh_token = async function(password){
     
 }
 userschema.methods.Generate_temporary_token = async function(password){
-    
+    token = secrets.token_hex(32);
+    return token
 }
 
 
