@@ -14,6 +14,14 @@ const userschema = new Schema({
         type : String,
         required : true
     },
+    Password: {
+        type : String,
+        required : true
+    },
+    Verification_Token: {
+        type : String,
+        required : true
+    },
     email: {
         type: String,
         required: true,
