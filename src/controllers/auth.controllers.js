@@ -3,7 +3,7 @@ import { ApiError } from "../utils/API-error.js";
 impot time from "time";
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt"
-import sendmail from "../utils/sendmail.js";
+import { Registeration_sendmail, Forget_password_sendmail} from "../utils/sendmail.js";
 
 
 const register_user = asyncHandler(async (req, res) => {
@@ -30,7 +30,7 @@ const register_user = asyncHandler(async (req, res) => {
        return ApiError(401, "error in creating user in database ")
     }
     console.log("Successfully created new user : ", user)
-    await sendmail(name, email , Verification_token);
+    await Registeration_sendmail(name, email , Verification_token);
     res.status(200).json({ message: "User registered successfully" }); 
     
 })
@@ -69,7 +69,7 @@ const Forget_Password = asyncHandler(async (req, res) =>{
     }
     const time_10_min = time.now();
     await user.insert_one({ Verification_token , time_10_min });
-    await sendmail(name, email , Verification_token);
+    await Forget_password_sendmail(name, email , Verification_token);
     res.status(200).json({ message: "User registered successfully" }); 
 
     
