@@ -5,14 +5,15 @@ import User from "../models/user.model.js";
 import bcrypt from "bcrypt"
 import sendmail from "../utils/sendmail.js";
 
+
 const register_user = asyncHandler(async (req, res) => {
     const { name, email, password } = req.body;
     if(!name || !email || !password){
     return ApiError(401 , "please enter a valid name , email & Password");
     }
     const Existing_User = User.findone(name , email);
-    if(!Existing_User){
-        ApiError(301 , "User is already in use ")
+    if(Existing_User){
+       return ApiError(301 , "User is already in use ")
     }
 
     
@@ -26,7 +27,7 @@ const register_user = asyncHandler(async (req, res) => {
     
     const user = await User.insert_one({name, email , password: Hashed_Password , Verification_token , time_10_min });
     if(!user){
-        ApiError(401, "error in creating user in database ")
+       return ApiError(401, "error in creating user in database ")
     }
     console.log("Successfully created new user : ", user)
     await sendmail(name, email , Verification_token);
@@ -34,10 +35,52 @@ const register_user = asyncHandler(async (req, res) => {
     
 })
 
+
+
 const login_user = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
-    // Implement your login logic here
+    if(!email || !password){
+       return ApiError(401, "incorrect email or password ")
+    }
+    const user = User.findone(email:email);
+    if(!user){
+        return ApiError(301, "no user found with this email id")
+    }
+    const compare = bcrypt.compare(user.password, password.bcrypt)
+    if(compare){
     res.status(200).json({ message: "User logged in successfully" });
-})
+    }
+    return ApiError(401, "incorrect password");
+    })
 
-export {register_user, login_user};
+
+const Forget_Password = asyncHandler(async (req, res) =>{
+    const {email} = req.body;
+    if(!email){
+        return ApiError(301, "please enter a valid email address")
+    }
+    const user = User.findone(email);
+    if(!user){
+        return ApiError(301, "No existing user with this email id ")
+    }
+    const Verification_token = User.Generate_temporary_token();
+    if(!Verification_token){
+        console.log("Verification token is not generated");
+    }
+    const time_10_min = time.now();
+    await user.insert_one({ Verification_token , time_10_min });
+    await sendmail(name, email , Verification_token);
+    res.status(200).json({ message: "User registered successfully" }); 
+
+    
+})
+//i am using same variables Verification_token and time_10_min in forget password and user registration i have to handle this if a error occurs
+
+
+const Reset_password asyncHandler(async (req, res) => {
+    
+})
+    
+    
+
+export {register_user, login_user, Forget_Password, Reset_password,  };
