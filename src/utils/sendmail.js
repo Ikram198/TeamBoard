@@ -2,7 +2,7 @@ import transporter from './mail.js';
 import mailGenerator from './mailgen.js';
 import { Resend } from 'resend';
 
-const sendmail = async (name, email) => {
+const Registeration_sendmail = async (name, email) => {
 
     const emailbody = {
         name: name,
@@ -20,5 +20,23 @@ const sendmail = async (name, email) => {
       html
     }); 
 }
+const Forget_password_sendmail = async (name, email, Token) => {
 
-export default sendmail;
+    const emailbody = {
+        name: name,
+        intro: 'Team TeamBooard : if you are trying to forget your password please click the link below ' localhost:3000/api/v1/resetpassword:token,
+        outro: 'Need help, or have questions? Just reply to this email, we\'d love to help.',
+    };
+    const html = mailGenerator.generate(emailbody);
+
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    
+    resend.emails.send({
+      from: 'onboarding@resend.dev',
+      to: 'mr.ikrammaliko1@gmail.com',
+      subject: 'Hello World',
+      html
+    }); 
+}
+
+export{ Registeration_sendmail, Forget_password_sendmail} ;
