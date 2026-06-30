@@ -1,5 +1,5 @@
 import mongoose , {Schema} from "mongoose";
-import secrets;
+import crypto from "crypto";
 const userschema = new Schema({
     id: {
         type: String,
@@ -29,9 +29,9 @@ const userschema = new Schema({
     },
     isverified: {
         type: Boolean,
-    }
+    },
     Time_to_verify_token: {
-        type: date,
+        type: Date,
     }
     // may be we have to create verification token
 })
@@ -46,7 +46,7 @@ userschema.methods.Generate_refresh_token = async function(password){
     
 }
 userschema.methods.Generate_temporary_token = async function(password){
-    token = secrets.token_hex(32);
+    token = crypto.randomBytes(32).toString("hex");
     return token
 }
 

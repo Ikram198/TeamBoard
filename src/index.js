@@ -1,7 +1,7 @@
 import app from './app.js';
 import dotenv from 'dotenv';
 import connectDB from './db/index.js';
-import APIError from './utils/API-error.js';
+import {ApiError} from './utils/API-error.js';
 
 dotenv.config({
     path: './.env'
@@ -11,7 +11,7 @@ then(
   console.log("db connected .then")
 ).
 catch(
-  new APIError(500, "Error in db connection"),
+  new ApiError(500, "Error in db connection"),
   console.log("error in db connection")
 )
 

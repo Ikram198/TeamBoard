@@ -1,8 +1,7 @@
 import { asyncHandler } from "../utils/Async-Handler.js";
 import { ApiError } from "../utils/API-error.js";
-impot time from "time";
-import User from "../models/user.model.js";
-import bcrypt from "bcrypt"
+import {User }from "../models/user.models.js";
+import bcrypt from "bcrypt";
 import { Registeration_sendmail, Forget_password_sendmail} from "../utils/sendmail.js";
 
 
@@ -22,7 +21,7 @@ const register_user = asyncHandler(async (req, res) => {
     if(!Verification_token){
         console.log("Verification token is not generated");
     }
-    const time_10_min = time.now();
+    const time_10_min = Date.now();
     
     
     const user = await User.insert_one({name, email , password: Hashed_Password , Verification_token , time_10_min });
@@ -42,7 +41,7 @@ const login_user = asyncHandler(async (req, res) => {
     if(!email || !password){
        return ApiError(401, "incorrect email or password ")
     }
-    const user = User.findone(email:email);
+    const user = User.findone(email);
     if(!user){
         return ApiError(301, "no user found with this email id")
     }
@@ -67,7 +66,7 @@ const Forget_Password = asyncHandler(async (req, res) =>{
     if(!Verification_token){
         console.log("Verification token is not generated");
     }
-    const time_10_min = time.now();
+    const time_10_min = Date.now();
     await user.insert_one({ Verification_token , time_10_min });
     await Forget_password_sendmail(name, email , Verification_token);
     res.status(200).json({ message: "User registered successfully" }); 
@@ -77,8 +76,19 @@ const Forget_Password = asyncHandler(async (req, res) =>{
 //i am using same variables Verification_token and time_10_min in forget password and user registration i have to handle this if a error occurs
 
 
-const Reset_password asyncHandler(async (req, res) => {
-    
+const Reset_password =asyncHandler(async (req, res) => {
+    const Token = req.params.token;
+    const {password} = req.body;
+    if(!Token || !password){
+        return ApiError(301, "please enter a valid token and password")
+    }
+    const user = User.findone(Token);
+    if(!user){
+        return ApiError(301, "No existing user with this token ")
+    }
+    const hashed_password = bcrypt.hash(password, 12);
+    await user.update_one({password: hashed_password});
+    res.status(200).json({ message: "Password reset successfully" });
 })
     
     
