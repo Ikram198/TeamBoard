@@ -12,7 +12,6 @@ then(
 ).
 catch(
   new ApiError(500, "Error in db connection"),
-  console.log("error in db connection")
 )
 
 
