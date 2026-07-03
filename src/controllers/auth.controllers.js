@@ -93,4 +93,4 @@ const Reset_password =asyncHandler(async (req, res) => {
     
     
 
-export {register_user, login_user, Forget_Password, Reset_password,  };
+export {register_user, login_user, Forget_Password, Reset_password };
