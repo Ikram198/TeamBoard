@@ -19,7 +19,14 @@ const create_project = asyncHandler(async(req, res)=>{
         return ApiError(501, "error in creating new project in database")
     }
     ApiResponce(200, "successfully created new project")
-
 })
 
-export {create_project}
+
+
+const all_project = asyncHandler(async(req, res) => {
+    const projects = Project.findall(user);
+    ApiResponce(201, "user is a part of " +projects)
+})
+
+
+export {create_project , all_project}
