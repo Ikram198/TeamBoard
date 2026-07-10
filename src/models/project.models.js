@@ -16,7 +16,13 @@ const Project_schema = new Schema({
     created_at: {
         type: Date,
         required : true
+    },
+    users: [
+    {
+        type: Schema.Types.ObjectId,
+        ref: "User"
     }
+]
 })
 
 export const Project = mongoose.model("Project", Project_schema)
