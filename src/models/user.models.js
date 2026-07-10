@@ -6,6 +6,12 @@ const userschema = new Schema({
         required: true
         // should be unique
     },
+    projects: [
+    {
+        type: Schema.Types.ObjectId,
+        ref: "Projects"
+    }
+]
     // avatar: {
     // we will define it later because it uses image from public folder 
     //     type: 
