@@ -1,7 +1,8 @@
 import { asyncHandler } from "../utils/Async-Handler.js";
 import { ApiError } from "../utils/API-error.js";
 import { ApiResponce } from "../utils/API-response.js";
-import Project from "../models/project.model.js";
+import {Project} from "../models/project.model.js";
+import {User }from "../models/user.models.js";
 
 const all_project = asyncHandler(async(req,res) => {
     const projects = Project.findall(user);
