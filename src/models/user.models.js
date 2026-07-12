@@ -11,7 +11,7 @@ const userschema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "Projects"
     }
-]
+],
     // avatar: {
     // we will define it later because it uses image from public folder 
     //     type: 

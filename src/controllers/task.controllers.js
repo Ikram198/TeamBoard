@@ -16,6 +16,6 @@ const create_task = Asynchandler(async(req, res) => {
   }
   ApiResponse(201, "task created successfully")
   
-}
+})
 
 export {create_task}                                 

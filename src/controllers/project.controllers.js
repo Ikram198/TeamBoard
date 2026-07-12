@@ -28,11 +28,11 @@ const create_project = asyncHandler(async(req, res)=>{
 
 
 const project = asyncHandler(async(req, res) => {
-     const project = req.params.project;
+    const project = req.params.project;
     const the_project = Project.findone(project);
     ApiResponce(201, "displaying the project"+the_project)
     
 })
 
 
-export {create_project , all_project , roject}
+export {create_project , all_project , project}

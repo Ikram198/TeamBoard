@@ -67,10 +67,16 @@ const login_user = asyncHandler(async (req, res) => {
         // projects = or access to projects or authorisations
         const payload = {email, password, projects}
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "18000s" })
+        res.cookie('access_token', token, {
+        maxAge: 36000000, 
+        httpOnly: true,  
+        secure: true,    
+        sameSite: 'strict'
+        });
         
         res.status(200).json({ message: "User logged in successfully" });
     } 
-    elese(){
+    if(!compare){
     throw new ApiError(401, "incorrect password");
     }
     })
@@ -116,3 +122,4 @@ const Reset_password =asyncHandler(async (req, res) => {
     
 
 export {register_user, login_user, Forget_Password, Reset_password , User_register_verification };
+

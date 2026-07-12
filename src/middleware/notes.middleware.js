@@ -6,4 +6,6 @@ const notes_middleware = asyncHandler(async(req, res)=>{
   if (!access_token){
     throw new ApiError(401, "user is not authorised for notes section")
   
+  
+  }
 })
