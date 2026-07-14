@@ -22,6 +22,7 @@ const create_project_middleware = asyncHandler(async(req, res, next)=>{
     if (!decodedPayload){
         throw new ApiError(401, "user is not authorised for creating new project")
     }
+    req.user = decodedPayload;
     // console.log(decodedPayload);
     next();
 })
