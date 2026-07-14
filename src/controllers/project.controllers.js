@@ -29,14 +29,15 @@ const create_project = asyncHandler(async(req, res)=>{
 
 const project = asyncHandler(async(req, res) => {
     const project = req.params.project;
-    const the_project = Project.findone(project);
+    const the_project = await Project.findone(project);
     if (!the_project) {
         throw new ApiError(501, "error in fetching project from database project may be deleted by someone")
     }
+    const {name , discription , created_by , created_at , users , notes} = the_project;
     
-    ApiResponce(201, "displaying the project"+the_project)
     
     
+    ApiResponce(201, "displaying the project" + the_project)
 })
 
 
