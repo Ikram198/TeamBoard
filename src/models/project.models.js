@@ -22,7 +22,13 @@ const Project_schema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "User"
     }
-]
+        ],
+     notes: [
+    {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    }
+         ]
 })
 
 export const Project = mongoose.model("Project", Project_schema)
