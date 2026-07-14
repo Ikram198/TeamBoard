@@ -53,8 +53,8 @@ const User_register_verification = asyncHandler(async(req, res)=>{
 
 
 const login_user = asyncHandler(async (req, res) => {
-    const { email, password } = req.body;
-    if(!email || !password){
+    const {name, email, password } = req.body;
+    if(!name || !email || !password){
        throw new ApiError(401, "incorrect email or password ")
     }
     const user = User.findone(email);
@@ -65,7 +65,7 @@ const login_user = asyncHandler(async (req, res) => {
     if(compare){
 
         // projects = or access to projects or authorisations
-        const payload = {email, password, projects}
+        const payload = {name , email, password, projects}
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "18000s" })
         res.cookie('access_token', token, {
         maxAge: 36000000, 
