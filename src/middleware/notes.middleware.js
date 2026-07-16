@@ -16,3 +16,4 @@ const notes_middleware = asyncHandler(async(req , res, next) => {
     next();
     
 })
+export {notes_middleware}
