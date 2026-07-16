@@ -1,6 +1,9 @@
 import express from 'express';
-import auth_router from "./routs/auth.routes.js"
 import health_router from "./routs/healthcheck.routes.js"
+import auth_router from "./routs/auth.routes.js"
+import note_router from "./routs/note.routes.js"
+import project_router from "./routs/project.routes.js"
+import task_router from "./routs/task.routes.js"
 const app = express();
 app.use(express.json());
 
@@ -10,9 +13,11 @@ app.get('/', (req, res) => {
 });
 
 
-app.use('/api/v1/authentication', auth_router);
 app.use('/api/v1/health', health_router);
 app.use('/api/v1/authentication', auth_router);
+app.use('/api/v1/authentication', note_router);
+app.use('/api/v1/authentication', project_router);
+app.use('/api/v1/authentication', task_router);
 
 
 
