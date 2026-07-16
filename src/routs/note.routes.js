@@ -1,9 +1,11 @@
-import create_note from '../controllers/note.controllers.js'
+import { create_note } from '../controllers/note.controllers.js'
+import {notes_middleware} from '../middleware/note.middleware.js'
+
 import express from 'express';
 
 const router = express.Router()
 
-router.get('/note', create_note)
+router.get('/note',notes_middleware, create_note)
 
 
 export default router
