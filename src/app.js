@@ -15,9 +15,9 @@ app.get('/', (req, res) => {
 
 app.use('/api/v1/health', health_router);
 app.use('/api/v1/authentication', auth_router);
-app.use('/api/v1/authentication', note_router);
-app.use('/api/v1/authentication', project_router);
-app.use('/api/v1/authentication', task_router);
+app.use('/api/v1/notes', note_router);
+app.use('/api/v1/project', project_router);
+app.use('/api/v1/task', task_router);
 
 
 
