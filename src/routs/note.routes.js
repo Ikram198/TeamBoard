@@ -1,5 +1,5 @@
 import { create_note } from '../controllers/note.controllers.js'
-import {notes_middleware} from '../middleware/note.middleware.js'
+import {notes_middleware} from '../middleware/notes.middleware.js'
 
 import express from 'express';
 

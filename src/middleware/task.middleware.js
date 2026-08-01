@@ -1,4 +1,4 @@
-import {Project} from "../models/project.model.js";
+import {Project} from "../models/project.models.js";
 
 const task_middleware = asyncHandler(async(req , res, next) => {
     const {access_token} = req.cookies.access_token;
@@ -8,13 +8,9 @@ const task_middleware = asyncHandler(async(req , res, next) => {
     }
     const decodedPayload = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decodedPayload;
-    await const project = Project.findone(project);
-    if(! decodedPayload.name == project.created_by){
-      throw new ApiError(401, "user is not authorised for creating task ")
-    }
-  
+    
     
     next();
-    
+
 })
 export {task_middleware}

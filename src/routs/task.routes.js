@@ -1,4 +1,4 @@
-import {create_task} from "../controllers/task.controller.js"
+import {create_task} from "../controllers/task.controllers.js"
 import {task_middleware} from "../middleware/task.middleware.js"
 
 import express from "express"

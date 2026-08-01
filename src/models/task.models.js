@@ -1,6 +1,4 @@
 import mongoose , {Schema} from "mongoose";
-import { Project } from "./project.models";
-import { TaskStatusEnum } from "../utils/constants";
 const Taskschema = new Schema({
     title: {
         type: String,

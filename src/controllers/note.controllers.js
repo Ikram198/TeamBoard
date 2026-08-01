@@ -1,4 +1,4 @@
-import ApiError from "../utils/API-error.js";
+import {ApiError} from "../utils/API-error.js";
 import ApiResponse from "../utils/API-response.js";
 import { asyncHandler } from "../utils/Async-Handler.js";
 const create_note = asyncHandler(async (req, res) => { 
