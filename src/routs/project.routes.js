@@ -7,7 +7,7 @@ const router = express.Router()
 
 router.get('/projects',projects_middleware , all_project)
 
-router.get('/create_project', create_project_middleware ,  create_project)
+router.get('/create_project', projects_middleware ,  create_project)
 
 router.get('/:project', access_project_middleware ,  project)
 
