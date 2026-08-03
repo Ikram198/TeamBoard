@@ -13,13 +13,13 @@ const all_project = asyncHandler(async(req,res) => {
 
 
 const create_project = asyncHandler(async(req, res)=>{
-    const {project_title , project_description} = req.body;
+    const {project_title , project_description , project_members , project_notes} = req.body;
     const createdby = req.user.name;
     const createdat = Date.now();
-    if (!project_title || !project_description){
-        throw new ApiError(301, "please enter project_title and project_description")
+    if (!project_title || !project_description || project_members){
+        throw new ApiError(301, "please enter project_title , project_description & project members")
     }
-    const project = await Project.insertone({name:project_title, description:project_description, createdby:createdby, createdat:createdat})
+    const project = await Project.insertone({name:project_title, discription:project_description, created_by:createdby, created_at:createdat , users:project_members , notes:project_notes })
     if(!project){
         throw new ApiError(501, "error in creating new project in database")
     }
