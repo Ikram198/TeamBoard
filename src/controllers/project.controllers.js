@@ -6,6 +6,7 @@ import {User }from "../models/user.models.js";
 
 
 const all_project = asyncHandler(async(req,res) => {
+    // later i will remove projects from cookies and make a db call instead if a problem occurs
     const {projects} = req.user
     ApiResponce(201, "user is a part of " +projects)
 })
