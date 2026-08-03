@@ -29,4 +29,4 @@ const access_project_middleware = asyncHandler(async(req, res, next) => {
     next();
 })
 
-export { projects_middleware , create_project_middleware , access_project_middleware}
+export { projects_middleware , access_project_middleware}
