@@ -34,7 +34,7 @@ const project = asyncHandler(async(req, res) => {
     if (!the_project) {
         throw new ApiError(401, "error in fetching project from database; project may be deleted by someone")
     }
-    const {name , discription , created_by , created_at , users , notes} = the_project;
+    const {name , discription , created_by , created_at , users , notes , tasks} = the_project;
     
     
     
