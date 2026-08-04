@@ -28,6 +28,12 @@ const Project_schema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "User"
     }
+         ],
+    tasks: [
+    {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    }
          ]
 })
 
