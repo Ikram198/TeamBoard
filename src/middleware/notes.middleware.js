@@ -1,4 +1,4 @@
-import ApiError from "../utils/API-error.js";
+import { ApiError } from "../utils/API-error.js";
 import { asyncHandler } from "../utils/Async-Handler.js";
 
 const notes_middleware = asyncHandler(async(req , res, next) => {

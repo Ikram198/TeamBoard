@@ -11,11 +11,12 @@ const register_user = asyncHandler(async (req, res) => {
     if(!name || !email || !password){
     throw new ApiError(401 , "please enter a valid name , email & Password");
     }
-    const Existing_User = User.findone(name , email);
+    const Existing_User = await User.findOne({email});
+    console.log(Existing_User)
     if(Existing_User){
        throw new ApiError(301 , "User is already in use ")
     }
-    const Hashed_Password = bcrypt.hash(plainPassword, 12); 
+    const Hashed_Password = bcrypt.hash(password, 12); 
     const Verification_token = User.Generate_temporary_token();
     if(!Verification_token){
         console.log("Verification token is not generated");
@@ -34,10 +35,15 @@ const register_user = asyncHandler(async (req, res) => {
 
 
 const User_register_verification = asyncHandler(async(req, res)=>{
-    const verification_token = user.params.token;
+    // const verification_token = user.params.token;
     const {email, password} = req.body;
-    const user = User.findone(email);
-    const compare = bcrypt.compare(user.password, password.bcrypt)
+    if(!email || !password){
+    throw new ApiError(401 , "please enter a valid name , email & Password");
+    }
+    // const user = await User.findOne({email});
+    const user = await User.findOne({ email: email });
+    console.log(user)
+    const compare = await bcrypt.compare(user.password, password.bcrypt)
     if (!compare){
         throw new ApiError(301, "incorrect password")
     }
@@ -57,7 +63,7 @@ const login_user = asyncHandler(async (req, res) => {
     if(!name || !email || !password){
        throw new ApiError(401, "incorrect email or password ")
     }
-    const user = User.findone(email);
+    const user = User.findone({email});
     if(!user){
         throw new ApiError(301, "no user found with this email id")
     }

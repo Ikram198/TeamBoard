@@ -1,6 +1,6 @@
 import { asyncHandler } from "../utils/Async-Handler.js";
 import { ApiError } from "../utils/API-error.js";
-import { ApiResponce } from "../utils/API-response.js";
+import ApiResponse from "../utils/API-response.js";
 import {Project} from "../models/project.models.js";
 import {User }from "../models/user.models.js";
 

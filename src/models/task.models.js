@@ -1,4 +1,5 @@
 import mongoose , {Schema} from "mongoose";
+import { TaskStatusEnum } from "../utils/constants.js";
 const Taskschema = new Schema({
     title: {
         type: String,
@@ -24,7 +25,7 @@ const Taskschema = new Schema({
         required: true
     },
     status: {
-        type:TaskStatusEnum,
+        type: String,
         required: true
     }
 
