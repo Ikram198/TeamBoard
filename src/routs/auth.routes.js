@@ -12,6 +12,6 @@ router.post('/login', login_user);
 
 router.post('/forget_password' , Forget_Password);
 
-router.post('/reset_password' , Reset_password);
+router.post('/reset_password/:project' , Reset_password);
 
 export default router;

@@ -45,7 +45,7 @@ userschema.methods.Generate_access_token = async function(password){
 userschema.methods.Generate_refresh_token = async function(password){
     
 }
-userschema.statics.Generate_temporary_token = async function(password){
+userschema.statics.Generate_temporary_token = function(password){
     const token = crypto.randomBytes(32).toString("hex");
     return token
 }

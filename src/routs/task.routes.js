@@ -5,6 +5,6 @@ import express from "express"
 
 const router = express.Router();
 
-router.get('/task', task_middleware , create_task)
+router.post('/create_task/:project', task_middleware , create_task)
 
 export default router 

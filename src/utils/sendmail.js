@@ -33,9 +33,11 @@ const Registeration_sendmail = async (name, email) => {
 const Forget_password_sendmail = async (name, email, Token) => {
 
     const emailbody = {
+        body: {
         name: name,
-        intro: 'Team TeamBooard : if you are trying to forget your password please click the link below: localhost:3000/api/v1/resetpassword:' + Token,
+        intro: 'Team TeamBooard : if you are trying to forget your password please click the link below: localhost:3000/api/v1/resetpassword:${Token}',
         outro: 'Need help, or have questions? Just reply to this email, we\'d love to help.',
+    }
     };
     const html = mailGenerator.generate(emailbody);
 

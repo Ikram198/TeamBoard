@@ -5,6 +5,18 @@ import {Project} from "../models/project.models.js";
 import {User }from "../models/user.models.js";
 
 
+const delete_project = asyncHandler(async(req, res) => {
+    const projectid = req.params.project;
+    const project = await Project.findById(projectid);
+    if(!project){
+        throw new ApiError(401, "error in fetching project from database; project may be deleted by someone")
+    }
+    await project.deleteOne();
+    res.status(200).json(
+        new ApiResponse(200, "successfully deleted the project")
+    )
+})
+
 const all_project = asyncHandler(async(req,res) => {
     // later i will remove projects from cookies and make a db call instead if a problem occurs
     // also this will create problem when will create a new project and will not be able to see it in the list of projects because it will not be in the cookies
@@ -23,7 +35,6 @@ const all_project = asyncHandler(async(req,res) => {
         new ApiResponse(201, "user is a part of " +projects)
     )
 })
-
 
 const create_project = asyncHandler(async(req, res)=>{
     const {project_title , project_description , project_members , project_notes} = req.body;
@@ -44,9 +55,6 @@ const create_project = asyncHandler(async(req, res)=>{
     )
 })
 
-
-
-
 const project = asyncHandler(async(req, res) => {
     const projectid = req.params.project;
     const the_project = await Project.findById(projectid);
@@ -62,4 +70,4 @@ const project = asyncHandler(async(req, res) => {
 })
 
 
-export {create_project , all_project , project}
+export {delete_project , create_project , all_project , project}

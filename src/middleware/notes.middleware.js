@@ -10,7 +10,7 @@ const notes_middleware = asyncHandler(async(req , res, next) => {
         throw new ApiError(401, "user is not authorised for project access ")
     }
    const decodedPayload = jwt.verify(access_token, process.env.JWT_SECRET);
-//    console.log( typeof decodedPayload.projects[0], project)
+
    const Is_member = decodedPayload.projects.includes(project);
     if(!Is_member){
         throw new ApiError(401, "user is not a part of this project")

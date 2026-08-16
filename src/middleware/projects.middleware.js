@@ -28,6 +28,7 @@ const access_project_middleware = asyncHandler(async(req, res, next) => {
         throw new ApiError(401, "user is not authorised for creating new project")
     }
     const project = req.params.project;
+    console.log("decoded payload : ", decodedPayload , project)
     const Is_member = decodedPayload.projects.includes(project);
 
     if(!Is_member){

@@ -82,13 +82,13 @@ const login_user = asyncHandler(async (req, res) => {
     if(compare){
 
         const full_user = await User.findById(user._id).populate('projects').exec();
-        console.log("full user : ", full_user.projects)
+        const id = full_user._id.toString();
         const projects = full_user.projects.map(project => project._id.toString());
 
         if(!projects){
             throw new ApiError(301, "no projects found for this user")
         }
-        const payload = {name , email, password, projects}
+        const payload = {name , email, password, projects , id};
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "18000s" })
         // console.log(token)
         res.cookie('access_token', token, {
@@ -107,7 +107,6 @@ const login_user = asyncHandler(async (req, res) => {
 
 
 
-
 const Forget_Password = asyncHandler(async (req, res) =>{
     const {email} = req.body;
     if(!email){
@@ -122,25 +121,27 @@ const Forget_Password = asyncHandler(async (req, res) =>{
         console.log("Verification token is not generated");
     }
     const time_10_min = Date.now();
-    await user.insert_one({ Verification_token , time_10_min });
+    const name = user.User_name;
+    await user.updateOne({ Verification_Token: Verification_token , Time_to_verify_token: time_10_min });
     await Forget_password_sendmail(name, email , Verification_token);
     res.status(200).json({ message: "User registered successfully" }); 
 })
 //i am using same variables Verification_token and time_10_min in forget password and user registration i have to handle this if a error occurs
 
 
-const Reset_password =asyncHandler(async (req, res) => {
+
+const Reset_password = asyncHandler(async (req, res) => {
     const Token = req.params.token;
     const {password} = req.body;
     if(!Token || !password){
         throw new ApiError(301, "please enter a valid token and password")
     }
-    const user = User.findone(Token);
+    const user = User.findOne({ Verification_Token: Token });
     if(!user){
         throw new ApiError(301, "No existing user with this token ")
     }
-    const hashed_password = bcrypt.hash(password, 12);
-    await user.update_one({password: hashed_password});
+    const hashed_password = await bcrypt.hash(password, 12);
+    await user.updateOne({Password: hashed_password , Verification_Token: null , Time_to_verify_token: null });
     res.status(200).json({ message: "Password reset successfully" });
 })
     
