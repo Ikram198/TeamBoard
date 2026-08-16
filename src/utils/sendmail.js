@@ -5,10 +5,20 @@ import { Resend } from 'resend';
 const Registeration_sendmail = async (name, email) => {
 
     const emailbody = {
-        name: name,
-        intro: 'Welcome to TEAMBOARD! We are very excited to have you on board.',
-        outro: 'Need help, or have questions? Just reply to this email, we\'d love to help.',
-    };
+    body: {
+        name: "Ikram",
+        intro: "Welcome to TeamBoard!",
+        action: {
+            instructions: "Click the button below to verify your account:",
+            button: {
+                color: "#22BC66",
+                text: "Verify Email",
+                link: "http://localhost:3000/verify"
+            }
+        },
+        outro: "Need help? Just reply to this email."
+    }
+};
     const html = mailGenerator.generate(emailbody);
 
     const resend = new Resend(process.env.RESEND_API_KEY);

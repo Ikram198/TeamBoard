@@ -1,10 +1,10 @@
 import mongoose , {Schema} from "mongoose";
 const Project_schema = new Schema({
-    name: {
+    project_title: {
         type: String,
         required: true
     },
-    discription: {
+    project_description: {
         type: String,
         required: true
     },
@@ -17,13 +17,13 @@ const Project_schema = new Schema({
         type: Date,
         required : true
     },
-    users: [
+    project_members: [
     {
         type: Schema.Types.ObjectId,
         ref: "User"
     }
         ],
-     notes: [
+     project_notes: [
     {
         type: Schema.Types.ObjectId,
         ref: "User"

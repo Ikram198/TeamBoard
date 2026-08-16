@@ -2,8 +2,10 @@ import { asyncHandler } from "../utils/Async-Handler.js";
 import { ApiError } from "../utils/API-error.js";
 import ApiResponse from "../utils/API-response.js";
 import {User }from "../models/user.models.js";
+import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { Registeration_sendmail, Forget_password_sendmail} from "../utils/sendmail.js";
+
 
 
 const register_user = asyncHandler(async (req, res) => {
@@ -16,14 +18,13 @@ const register_user = asyncHandler(async (req, res) => {
     if(Existing_User){
        throw new ApiError(301 , "User is already in use ")
     }
-    const Hashed_Password = bcrypt.hash(password, 12); 
-    const Verification_token = User.Generate_temporary_token();
+    const Hashed_Password = await bcrypt.hash(password, 12); 
+    const Verification_token = await User.Generate_temporary_token();
     if(!Verification_token){
         console.log("Verification token is not generated");
     }
     const time_10_min = Date.now();
-    
-    const user = await User.insert_one({name, email , password: Hashed_Password , Verification_token , time_10_min });
+    const user = await User.insertOne({User_name: name,isverified: false, email: email , Password: Hashed_Password , Verification_Token:Verification_token , Time_to_verify_token:time_10_min });
     if(!user){
        throw new ApiError(401, "error in creating user in database ")
     }
@@ -33,28 +34,38 @@ const register_user = asyncHandler(async (req, res) => {
 })
 
 
-
 const User_register_verification = asyncHandler(async(req, res)=>{
-    // const verification_token = user.params.token;
+    const verification_token = req.params.token;
+    if(!verification_token){
+        throw new ApiError(401 , "please enter a valid verification token");
+    }
     const {email, password} = req.body;
     if(!email || !password){
     throw new ApiError(401 , "please enter a valid name , email & Password");
     }
-    // const user = await User.findOne({email});
     const user = await User.findOne({ email: email });
-    console.log(user)
-    const compare = await bcrypt.compare(user.password, password.bcrypt)
-    if (!compare){
-        throw new ApiError(301, "incorrect password")
-    }
     if(!user){
         throw new ApiError(301, "no user found with this email id")
     }
-    if (user.verification_token == verification_token){
-        ApiResponse(201, "user verified successfully now you can log in ")
+    const compare = await bcrypt.compare(password, user.Password)
+    if (!compare){
+        throw new ApiError(301, "incorrect password")
+    }
+    console.log("user verification token : ", user.Verification_Token , verification_token)
+    if (user.Verification_Token === verification_token){
+        user.isverified = true;
+        user.Verification_Token = null;
+        user.Time_to_verify_token = null;
+        await user.save();
+        console.log(user)
+    return res.status(201).json(
+    new ApiResponse(201, "User verified successfully")
+    );
+    }
+    else{
+        throw new ApiError(301, "incorrect token")
     }
 })
-
 
 
 
@@ -63,20 +74,27 @@ const login_user = asyncHandler(async (req, res) => {
     if(!name || !email || !password){
        throw new ApiError(401, "incorrect email or password ")
     }
-    const user = User.findone({email});
+    const user = await User.findOne({email});
     if(!user){
         throw new ApiError(301, "no user found with this email id")
     }
-    const compare = bcrypt.compare(user.password, password.bcrypt)
+    const compare = await bcrypt.compare(password, user.Password)
     if(compare){
 
-        // projects = or access to projects or authorisations
+        const full_user = await User.findById(user._id).populate('projects').exec();
+        console.log("full user : ", full_user.projects)
+        const projects = full_user.projects.map(project => project._id.toString());
+
+        if(!projects){
+            throw new ApiError(301, "no projects found for this user")
+        }
         const payload = {name , email, password, projects}
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "18000s" })
+        // console.log(token)
         res.cookie('access_token', token, {
         maxAge: 36000000, 
         httpOnly: true,  
-        secure: true,    
+        secure: false,    
         sameSite: 'strict'
         });
         
@@ -89,12 +107,13 @@ const login_user = asyncHandler(async (req, res) => {
 
 
 
+
 const Forget_Password = asyncHandler(async (req, res) =>{
     const {email} = req.body;
     if(!email){
         throw new ApiError(301, "please enter a valid email address")
     }
-    const user = User.findone(email);
+    const user = await User.findOne({email});
     if(!user){
         throw new ApiError(301, "No existing user with this email id ")
     }

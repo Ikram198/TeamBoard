@@ -1,15 +1,10 @@
 import mongoose , {Schema} from "mongoose";
 import crypto from "crypto";
 const userschema = new Schema({
-    id: {
-        type: String,
-        required: true
-        // should be unique
-    },
     projects: [
     {
         type: Schema.Types.ObjectId,
-        ref: "Projects"
+        ref: "Project"
     }
 ],
     // avatar: {
@@ -26,7 +21,6 @@ const userschema = new Schema({
     },
     Verification_Token: {
         type : String,
-        required : true
     },
     email: {
         type: String,
@@ -51,8 +45,8 @@ userschema.methods.Generate_access_token = async function(password){
 userschema.methods.Generate_refresh_token = async function(password){
     
 }
-userschema.methods.Generate_temporary_token = async function(password){
-    token = crypto.randomBytes(32).toString("hex");
+userschema.statics.Generate_temporary_token = async function(password){
+    const token = crypto.randomBytes(32).toString("hex");
     return token
 }
 

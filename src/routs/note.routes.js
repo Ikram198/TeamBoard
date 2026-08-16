@@ -5,7 +5,7 @@ import express from 'express';
 
 const router = express.Router()
 
-router.get('/note',notes_middleware, create_note)
+router.post('/note/:project',notes_middleware, create_note)
 
 
 export default router

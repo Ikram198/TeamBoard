@@ -14,7 +14,9 @@ const create_task = asyncHandler(async(req, res) => {
   if(!task){
     throw new ApiError(401, "error in creating task in database")
   }
-  return ApiResponse(201, "task created successfully")
+  res.status(201).json(
+    new ApiResponse(201, "task created successfully")
+  )
   
 })
 
