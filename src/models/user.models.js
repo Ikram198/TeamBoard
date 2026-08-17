@@ -10,13 +10,13 @@ const userschema = new Schema({
     notes: [
     {
         type: Schema.Types.ObjectId,
-        ref: "Project"
+        ref: "Note"
     }
 ],
     tasks: [
     {
         type: Schema.Types.ObjectId,
-        ref: "Project"
+        ref: "Task"
     }
 ],
     // avatar: {
