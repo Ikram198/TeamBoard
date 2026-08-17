@@ -7,6 +7,18 @@ const userschema = new Schema({
         ref: "Project"
     }
 ],
+    notes: [
+    {
+        type: Schema.Types.ObjectId,
+        ref: "Project"
+    }
+],
+    tasks: [
+    {
+        type: Schema.Types.ObjectId,
+        ref: "Project"
+    }
+],
     // avatar: {
     // we will define it later because it uses image from public folder 
     //     type: 
