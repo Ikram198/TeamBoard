@@ -85,10 +85,16 @@ const login_user = asyncHandler(async (req, res) => {
         const id = full_user._id.toString();
         const projects = full_user.projects.map(project => project._id.toString());
 
+
+        
+        const full_user = await User.findById(user._id).populate('notes').exec();
+        const notes = full_user.projects.map(notes => notes._id.toString());
+
+        
         if(!projects){
             throw new ApiError(301, "no projects found for this user")
         }
-        const payload = {name , email, password, projects , id};
+        const payload = {name , email, password, projects , id , notes};
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "18000s" })
         // console.log(token)
         res.cookie('access_token', token, {
