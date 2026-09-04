@@ -20,8 +20,24 @@ const create_note = asyncHandler(async (req, res) => {
 
 
 const get_note_by_id = asyncHandler(async (req, res) => {
-    
-})
+    const { id } = req.params;
+
+    if (!id) {
+        return res
+            .status(400)
+            .json(new ApiResponse(400, "Note ID is required"));
+    }
+
+    const note = await Note.findById(id);
+
+    if (!note) {
+        return res.status(404).json(new ApiResponse(404, "Note not found"));
+    }
+
+    return res.status(200).json(new ApiResponse(200, "Successfully fetched the note", note));
+});
+
+
 
 const get_all_notes = asyncHandler(async (req, res) => {
     
